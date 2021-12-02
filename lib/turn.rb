@@ -12,5 +12,6 @@ class Turn
 
   def feedback
     return 'Correct Broski!!!' if correct? == true
+    return 'Sorry Broseph, thats wrong!' if correct? == false
   end
 end

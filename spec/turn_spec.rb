@@ -46,21 +46,21 @@ RSpec.describe Card do
     expect(turn.card).to eq(card)
   end
 
-  xit 'has a guess' do
+  it 'has a guess' do
     card = Card.new('Which planet is closest to the sun?', 'Mercury', :STEM)
     turn = Turn.new('Saturn', card)
-    expect(turn.guess).to eq('Juneau')
+    expect(turn.guess).to eq('Saturn')
   end
 
-  xit 'has knows if the answer is correct' do
+  it 'has knows if the answer is correct' do
     card = Card.new('Which planet is closest to the sun?', 'Mercury', :STEM)
     turn = Turn.new('Saturn', card)
-    expect(turn.correct?).to be true
+    expect(turn.correct?).to be false
   end
 
-  xit 'gives feedback' do
+  it 'gives feedback' do
     card = Card.new('Which planet is closest to the sun?', 'Mercury', :STEM)
     turn = Turn.new('Saturn', card)
-    expect(turn.feedback).to eq('Correct Broski!!!')
+    expect(turn.feedback).to eq('Sorry Broseph, thats wrong!')
   end
 end
