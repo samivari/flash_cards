@@ -28,4 +28,9 @@ class Round
       turn.correct? && (turn.card.category == category_name)
     end
   end
+
+  def percent_correct
+    return number_correct.to_f / turns.count * 100 unless turns.empty?
+    return 0 if turns.empty?
+  end
 end
