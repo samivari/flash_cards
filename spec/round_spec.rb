@@ -14,6 +14,7 @@ RSpec.describe Card do
     cards = [card_1, card_2, card_3]
     deck = Deck.new(cards)
     round = Round.new(deck)
+
     expect(round).to be_instance_of(Round)
   end
 
@@ -27,6 +28,7 @@ RSpec.describe Card do
     cards = [card_1, card_2, card_3]
     deck = Deck.new(cards)
     round = Round.new(deck)
+
     expect(round.deck).to eq(deck)
   end
 
@@ -40,6 +42,7 @@ RSpec.describe Card do
     cards = [card_1, card_2, card_3]
     deck = Deck.new(cards)
     round = Round.new(deck)
+
     expect(round.turns).to eq([])
   end
 
@@ -53,6 +56,7 @@ RSpec.describe Card do
     cards = [card_1, card_2, card_3]
     deck = Deck.new(cards)
     round = Round.new(deck)
+
     expect(round.current_card).to eq(card_1)
   end
 
@@ -67,6 +71,7 @@ RSpec.describe Card do
     deck = Deck.new(cards)
     round = Round.new(deck)
     new_turn = round.take_turn('Juneau')
+
     expect(new_turn).to be_instance_of(Turn)
     expect(new_turn.correct?)
     expect(round.number_correct).to eq(1)
@@ -82,10 +87,15 @@ RSpec.describe Card do
     cards = [card_1, card_2, card_3]
     deck = Deck.new(cards)
     round = Round.new(deck)
+
     expect(round.number_correct).to eq(0)
-    new_turn = round.take_turn('Juneau')
+
+    round.take_turn('Juneau')
+
     expect(round.number_correct).to eq(1)
-    new_turn = round.take_turn('Venus')
+
+    round.take_turn('Venus')
+
     expect(round.number_correct).to eq(1)
   end
 
@@ -98,8 +108,11 @@ RSpec.describe Card do
                       'North north west', :STEM)
     deck = Deck.new([card_1, card_2, card_3])
     round = Round.new(deck)
+
     expect(round.current_card).to eq(card_1)
+
     round.take_turn('egg')
+
     expect(round.current_card).to eq(card_2)
   end
 
@@ -162,5 +175,41 @@ RSpec.describe Card do
     round.take_turn('Venus')
 
     expect(round.percent_correct).to eq(50.0)
+  end
+
+  it 'counts the number of turns for a single category' do
+    card_1 = Card.new('What is the capital of Alaska?', 'Juneau', :Geography)
+    card_2 = Card.new(
+      'The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?', 'Mars', :STEM
+    )
+    card_3 = Card.new('Describe in words the exact direction that is 697.5° clockwise from due north?',
+                      'North north west', :STEM)
+    deck = Deck.new([card_1, card_2, card_3])
+    round = Round.new(deck)
+
+    expect(round.count_turns_by_category(:Geography)).to eq(0)
+
+    round.take_turn('Juneau')
+    round.take_turn('Venus')
+
+    expect(round.count_turns_by_category(:Geography)).to eq(1)
+  end
+
+  it 'reports a percentage of correct responses by category' do
+    card_1 = Card.new('What is the capital of Alaska?', 'Juneau', :Geography)
+    card_2 = Card.new(
+      'The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?', 'Mars', :STEM
+    )
+    card_3 = Card.new('Describe in words the exact direction that is 697.5° clockwise from due north?',
+                      'North north west', :STEM)
+    deck = Deck.new([card_1, card_2, card_3])
+    round = Round.new(deck)
+
+    expect(round.percent_correct_by_category(:Geography)).to eq(0)
+
+    round.take_turn('Juneau')
+    round.take_turn('Venus')
+
+    expect(round.percent_correct_by_category(:Geography)).to eq(100.0)
   end
 end

@@ -33,4 +33,15 @@ class Round
     return number_correct.to_f / turns.count * 100 unless turns.empty?
     return 0 if turns.empty?
   end
+
+  def count_turns_by_category(category)
+    turns.count do |turn|
+      turn.card.category == category
+    end
+  end
+
+  def percent_correct_by_category(category)
+    return number_correct_by_category(category).to_f / count_turns_by_category(category) * 100 unless turns.empty?
+    return 0 if turns.empty?
+  end
 end
