@@ -15,6 +15,12 @@ class Deck
     end
   end
 
+  def categories
+    cards.map do |card|
+      card.category
+    end.uniq.sort
+  end
+
   def rotate
     @cards = @cards.rotate
   end
